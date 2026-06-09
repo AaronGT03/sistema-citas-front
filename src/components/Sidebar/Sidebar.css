@@ -1,0 +1,107 @@
+.sidebar {
+  width: 270px;
+  height: 100vh;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  background: #050b1d;
+
+  border-right: 1px solid rgba(255,255,255,.05);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 24px;
+}
+
+.sidebar-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-logo img {
+  width: 180px;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-item {
+  height: 52px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: transparent;
+
+  color: #d1d5db;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 18px;
+
+  cursor: pointer;
+
+  transition: all .25s ease;
+}
+
+.sidebar-item:hover {
+  background: rgba(124,58,237,.15);
+  color: white;
+}
+
+.sidebar-item.active {
+  background: linear-gradient(
+    90deg,
+    #0ea5ff,
+    #7c3aed
+  );
+
+  color: white;
+}
+
+.sidebar-item span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: white;
+}
+
+.sidebar-user p {
+  margin: 0;
+}
+
+.logout-btn {
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #ef4444;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
