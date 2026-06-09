@@ -1,5 +1,6 @@
 import "./Sidebar.css";
 import logo from "../../assets/logo2.png";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -10,20 +11,35 @@ function Sidebar() {
 
       <nav className="sidebar-menu">
 
-        <button className="sidebar-item active">
+        <NavLink
+          to="/admin/dashboard"
+          className={({ isActive }) =>
+            isActive ? "sidebar-item active" : "sidebar-item"
+          }
+        >
           🏠
           <span>Dashboard</span>
-        </button>
+        </NavLink>
 
-        <button className="sidebar-item">
+        <NavLink
+          to="/admin/empresas"
+          className={({ isActive }) =>
+            isActive ? "sidebar-item active" : "sidebar-item"
+          }
+        >
           🏢
           <span>Empresas</span>
-        </button>
+        </NavLink>
 
-        <button className="sidebar-item">
+        <NavLink
+          to="/admin/usuarios"
+          className={({ isActive }) =>
+            isActive ? "sidebar-item active" : "sidebar-item"
+          }
+        >
           👥
           <span>Usuarios</span>
-        </button>
+        </NavLink>
 
       </nav>
 
@@ -34,7 +50,7 @@ function Sidebar() {
         </div>
 
         <button className="logout-btn">
-          🚪 Cerrar sesión
+          Cerrar sesión
         </button>
       </div>
     </aside>

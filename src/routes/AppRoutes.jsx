@@ -5,7 +5,8 @@ import Login from "../pages/Login/Login";
 import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
 
 import AdminEmpresas from "../pages/admin/Empresas/AdminEmpresas";
-
+import AdminUsuarios from "../pages/admin/Usuarios/AdminUsuarios";
+ 
 function AppRoutes() {
   return (
     <Routes>
@@ -16,6 +17,8 @@ function AppRoutes() {
       <Route path="/empresa/inicio" element={<h1>Dashboard Empresa</h1>} />
 
       <Route path="/admin/empresas" element={<AdminEmpresas />} />
+
+      <Route path="/admin/usuarios" element={<AdminUsuarios />} />
     </Routes>
   );
 }

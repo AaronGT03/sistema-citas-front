@@ -48,8 +48,12 @@ function AdminEmpresas() {
 
       cargarEmpresas();
     } catch (error) {
-      console.log(error);
-      alert("Error al crear empresa");
+      console.log(error.response?.data);
+
+      alert(
+        error.response?.data?.detail ||
+        "Error al crear empresa"
+      );
     }
   };
 
