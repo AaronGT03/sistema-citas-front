@@ -226,3 +226,41 @@
   font-size: 13px;
   font-weight: 600;
 }
+.admin-main {
+  flex: 1;
+  padding: 28px 32px;
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  max-width: calc(100vw - var(--sidebar-width));
+  overflow-x: hidden;
+}
+.usuarios-table-card {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.usuarios-table-card table {
+  min-width: 900px;
+}
+
+.usuarios-table-card td,
+.usuarios-table-card th {
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .admin-main {
+    margin-left: 0;
+    padding: 20px;
+    max-width: 100vw;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .usuarios-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
