@@ -7,6 +7,7 @@ import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
 import AdminEmpresas from "../pages/admin/Empresas/AdminEmpresas";
 import AdminUsuarios from "../pages/admin/Usuarios/AdminUsuarios";
 import PrivateRoute from "./PrivateRoute";
+import EmpresaInicio from "../pages/empresa/Inicio/EmpresaInicio";
 
 function AppRoutes() {
   return (
@@ -25,7 +26,7 @@ function AppRoutes() {
         path="/empresa/inicio"
         element={
           <PrivateRoute rolPermitido="EMPRESA">
-            <h1>Dashboard Empresa</h1>
+            <EmpresaInicio />
           </PrivateRoute>
         }
       />

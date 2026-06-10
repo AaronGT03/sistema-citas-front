@@ -1,0 +1,223 @@
+.empresa-inicio {
+  color: var(--text-primary);
+}
+
+.empresa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.empresa-header h1 {
+  font-size: 34px;
+}
+
+.empresa-header p {
+  color: var(--text-secondary);
+  margin-top: 6px;
+  text-transform: capitalize;
+}
+
+.empresa-welcome {
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+}
+
+.empresa-welcome span {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.empresa-welcome h3 {
+  font-size: 15px;
+}
+
+.empresa-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.empresa-stat-card {
+  min-height: 135px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(8,16,31,.95), rgba(11,18,36,.95));
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.empresa-stat-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+}
+
+.empresa-stat-card.blue::after {
+  background: var(--primary);
+}
+
+.empresa-stat-card.green::after {
+  background: var(--success);
+}
+
+.empresa-stat-card.purple::after {
+  background: var(--secondary);
+}
+
+.empresa-stat-card.red::after {
+  background: var(--danger);
+}
+
+.empresa-stat-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: rgba(29,125,255,.15);
+  display: grid;
+  place-items: center;
+  font-size: 27px;
+}
+
+.empresa-stat-card h3 {
+  font-size: 15px;
+}
+
+.empresa-stat-card h2 {
+  font-size: 34px;
+  margin: 4px 0;
+}
+
+.empresa-stat-card p {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.empresa-dashboard-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.4fr;
+  gap: 22px;
+}
+
+.empresa-panel {
+  min-height: 360px;
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(8,16,31,.95), rgba(11,18,36,.9));
+  border: 1px solid var(--border);
+}
+
+.empresa-panel h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.empresa-panel p {
+  color: var(--text-secondary);
+}
+
+.empresa-empty {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empresa-empty div {
+  font-size: 48px;
+  opacity: .5;
+  margin-bottom: 16px;
+}
+
+.empresa-empty h3 {
+  color: white;
+  font-size: 18px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.panel-header button,
+.calendar-title button {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  color: white;
+  border-radius: 10px;
+  padding: 9px 14px;
+}
+
+.calendar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 24px;
+}
+
+.calendar-title h3 {
+  font-size: 18px;
+}
+
+.calendar-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendar-day {
+  height: 52px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day:nth-child(7n) {
+  border-right: none;
+}
+
+.calendar-day span {
+  font-size: 15px;
+}
+
+.calendar-day.muted span {
+  color: var(--text-muted);
+}
+
+.calendar-day.today span {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
