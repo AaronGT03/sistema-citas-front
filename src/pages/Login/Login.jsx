@@ -6,6 +6,9 @@ import "./Login.css";
 import logo from "../../assets/logo.png";
 import logo2 from "../../assets/logo2.png";
 import { login } from "../../services/authServices";
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
+import { toast } from "react-toastify";
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +40,7 @@ function Login() {
 
     try {
       const data = await login(email, password);
+      toast.success("Bienvenido a MOGA 🚀");
 
       sessionStorage.setItem("token", data.access_token);
       sessionStorage.setItem("usuario", JSON.stringify(data));
@@ -47,7 +51,7 @@ function Login() {
         navigate("/empresa/inicio", { replace: true });
       }
     } catch (error) {
-      setError("Correo o contraseña incorrectos");
+      toast.error("Correo o contraseña incorrectos");
     } finally {
       setLoading(false);
     }
@@ -55,6 +59,7 @@ function Login() {
 
   return (
     <main className="login-page">
+      <LoadingOverlay show={loading} text="Iniciando sesión..." />
       <section className="login-card">
         <motion.div
           className="login-left"
@@ -118,6 +123,7 @@ function Login() {
               <motion.button
                 className="login-submit"
                 type="submit"
+                disabled={loading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >

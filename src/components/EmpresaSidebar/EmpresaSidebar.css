@@ -1,0 +1,107 @@
+.empresa-sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  background: #050b1d;
+  border-right: 1px solid rgba(255,255,255,.06);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 28px 24px;
+}
+
+.empresa-sidebar-logo img {
+  width: 180px;
+}
+
+.empresa-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empresa-sidebar-item {
+  height: 52px;
+  border-radius: 14px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 700;
+
+  transition: .25s;
+}
+
+.empresa-sidebar-item:hover {
+  background: rgba(124,58,237,.15);
+  color: white;
+}
+
+.empresa-sidebar-item.active {
+  background: linear-gradient(90deg, #1d7dff, #9b2cff);
+  color: white;
+}
+
+.empresa-sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empresa-sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.empresa-user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  color: white;
+  font-weight: 800;
+
+  background: linear-gradient(135deg, #1d7dff, #9b2cff);
+}
+
+.empresa-sidebar-user h4 {
+  color: white;
+  font-size: 13px;
+  margin: 0;
+}
+
+.empresa-sidebar-user span {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.empresa-logout-btn {
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+
+  background: #ef4444;
+  color: white;
+
+  font-weight: 700;
+  cursor: pointer;
+}

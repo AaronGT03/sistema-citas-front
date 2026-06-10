@@ -408,13 +408,6 @@
   display: none;
 }
 
-.login-input-box input[type="password"]::-webkit-credentials-auto-fill-button,
-.login-input-box input[type="password"]::-webkit-caps-lock-indicator,
-.login-input-box input[type="password"]::-webkit-textfield-decoration-container {
-  display: none;
-  visibility: hidden;
-  pointer-events: none;
-}
 .login-error {
   color: #ef4444;
   font-size: 14px;

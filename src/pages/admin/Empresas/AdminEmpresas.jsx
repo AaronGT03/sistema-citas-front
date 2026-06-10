@@ -8,6 +8,7 @@ import {
 } from "../../../services/empresaService";
 import "./AdminEmpresas.css";
 import { Pencil, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 function AdminEmpresas() {
   const [empresas, setEmpresas] = useState([]);
@@ -32,7 +33,7 @@ function AdminEmpresas() {
       const data = await obtenerEmpresas();
       setEmpresas(data);
     } catch (error) {
-      console.log("Error al cargar empresas:", error);
+      toast.error("Error al cargar empresas:");
     }
   };
 
@@ -57,10 +58,10 @@ function AdminEmpresas() {
         horario_fin: "18:00",
         activa: true,
       });
-
+      toast.success("Empresa guardada correctamente");
       cargarEmpresas();
     } catch (error) {
-      alert(error.response?.data?.detail || "Error al guardar empresa");
+      toast.error("Error al guardar empresa");
     }
   };
   const abrirEditarEmpresa = (empresa) => {
@@ -84,9 +85,10 @@ function AdminEmpresas() {
 
     try {
       await eliminarEmpresa(empresaId);
+      toast.success("Empresa eliminada correctamente");
       cargarEmpresas();
     } catch (error) {
-      alert(error.response?.data?.detail || "Error al eliminar empresa");
+      toast.error("Error al eliminar empresa");
     }
   };
 

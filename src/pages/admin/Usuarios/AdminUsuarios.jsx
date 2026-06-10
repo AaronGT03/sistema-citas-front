@@ -9,6 +9,7 @@ import {
     eliminarUsuario,
     editarUsuario
 } from "../../../services/usuarioService";
+import { toast } from "react-toastify";
 
 function AdminUsuarios() {
     const [usuarios, setUsuarios] = useState([]);
@@ -26,7 +27,7 @@ function AdminUsuarios() {
             const data = await obtenerUsuarios();
             setUsuarios(data);
         } catch (error) {
-            console.log(error);
+            toast.error("Error al cargar usuarios:");
         }
     };
     const handleEliminarUsuario = async (usuarioId) => {
@@ -36,12 +37,10 @@ function AdminUsuarios() {
 
         try {
             await eliminarUsuario(usuarioId);
+            toast.success("Usuario eliminado correctamente");
             cargarUsuarios();
         } catch (error) {
-            alert(
-                error.response?.data?.detail ||
-                "Error al eliminar usuario"
-            );
+            toast.error("Error al eliminar usuario");
         }
     };
     const guardarUsuario = async () => {
@@ -72,12 +71,10 @@ function AdminUsuarios() {
                 empresa_id: "",
             });
 
+            toast.success("Usuario guardado correctamente");
             cargarUsuarios();
         } catch (error) {
-            alert(
-                error.response?.data?.detail ||
-                "Error al guardar usuario"
-            );
+            toast.error("Error al guardar usuario");
         }
     };
     const cargarEmpresas = async () => {
@@ -85,7 +82,7 @@ function AdminUsuarios() {
             const data = await obtenerEmpresas();
             setEmpresas(data);
         } catch (error) {
-            console.log(error);
+            toast.error("Error al cargar empresas:");
         }
     };
     const [mostrarModal, setMostrarModal] = useState(false);
