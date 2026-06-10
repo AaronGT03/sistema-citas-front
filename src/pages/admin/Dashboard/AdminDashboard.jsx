@@ -1,5 +1,8 @@
 import AdminLayout from "../../../layouts/AdminLayout";
 import "./AdminDashboard.css";
+import { useEffect, useState } from "react";
+import { obtenerEmpresas } from "../../../services/empresaService";
+import { obtenerUsuarios } from "../../../services/usuarioService";
 
 function AdminDashboard() {
   const fecha = new Date().toLocaleDateString("es-MX", {
@@ -8,6 +11,24 @@ function AdminDashboard() {
     month: "long",
     year: "numeric",
   });
+  const [empresas, setEmpresas] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
+
+  useEffect(() => {
+    cargarDatos();
+  }, []);
+
+  const cargarDatos = async () => {
+    try {
+      const empresasData = await obtenerEmpresas();
+      const usuariosData = await obtenerUsuarios();
+
+      setEmpresas(empresasData);
+      setUsuarios(usuariosData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -22,7 +43,7 @@ function AdminDashboard() {
             <div className="stat-icon">🏢</div>
             <div>
               <h3>Empresas</h3>
-              <h2>1</h2>
+              <h2>{empresas.length}</h2>
               <p>Total registradas</p>
             </div>
           </div>
@@ -40,7 +61,7 @@ function AdminDashboard() {
             <div className="stat-icon">👥</div>
             <div>
               <h3>Usuarios</h3>
-              <h2>2</h2>
+              <h2>{usuarios.length}</h2>
               <p>Total registrados</p>
             </div>
           </div>
@@ -79,7 +100,10 @@ function AdminDashboard() {
             </div>
 
             <div className="calendar-days">
-              {[31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 1, 2, 3, 4].map((day, index) => (
+              {[
+                31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 1, 2, 3, 4,
+              ].map((day, index) => (
                 <div
                   key={index}
                   className={`calendar-day ${day === 5 ? "today" : ""} ${

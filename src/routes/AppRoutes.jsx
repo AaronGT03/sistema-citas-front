@@ -6,19 +6,47 @@ import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
 
 import AdminEmpresas from "../pages/admin/Empresas/AdminEmpresas";
 import AdminUsuarios from "../pages/admin/Usuarios/AdminUsuarios";
- 
+import PrivateRoute from "./PrivateRoute";
+
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <PrivateRoute>
+            <AdminDashboard />
+          </PrivateRoute>
+        }
+      />
 
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route
+        path="/empresa/inicio"
+        element={
+          <PrivateRoute>
+            <h1>Dashboard Empresa</h1>
+          </PrivateRoute>
+        }
+      />
 
-      <Route path="/empresa/inicio" element={<h1>Dashboard Empresa</h1>} />
+      <Route
+        path="/admin/empresas"
+        element={
+          <PrivateRoute>
+            <AdminEmpresas />
+          </PrivateRoute>
+        }
+      />
 
-      <Route path="/admin/empresas" element={<AdminEmpresas />} />
-
-      <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+      <Route
+        path="/admin/usuarios"
+        element={
+          <PrivateRoute>
+            <AdminUsuarios />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

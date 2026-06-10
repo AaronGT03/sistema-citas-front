@@ -1,8 +1,15 @@
 import "./Sidebar.css";
 import logo from "../../assets/logo2.png";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    sessionStorage.clear();
+    navigate("/", { replace: true });
+  };
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -10,7 +17,6 @@ function Sidebar() {
       </div>
 
       <nav className="sidebar-menu">
-
         <NavLink
           to="/admin/dashboard"
           className={({ isActive }) =>
@@ -40,7 +46,6 @@ function Sidebar() {
           👥
           <span>Usuarios</span>
         </NavLink>
-
       </nav>
 
       <div className="sidebar-footer">
@@ -49,7 +54,7 @@ function Sidebar() {
           <p>Administrador</p>
         </div>
 
-        <button className="logout-btn">
+        <button className="logout-btn" onClick={logout}>
           Cerrar sesión
         </button>
       </div>
