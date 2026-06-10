@@ -10,3 +10,7 @@
   margin-left: var(--sidebar-width);
   min-height: 100vh;
 }
+.admin-main {
+  max-width: calc(100vw - var(--sidebar-width));
+  overflow-x: hidden;
+}

@@ -82,9 +82,52 @@
 .sidebar-user {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+
+  padding: 14px;
+
+  background: rgba(255,255,255,.04);
+
+  border: 1px solid rgba(255,255,255,.06);
+
+  border-radius: 16px;
+}
+.user-avatar {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 16px;
 
   color: white;
+
+  background: linear-gradient(
+    135deg,
+    #1d7dff,
+    #9b2cff
+  );
+}
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info h4 {
+  margin: 0;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-info span {
+  color: #94a3b8;
+  font-size: 12px;
 }
 
 .sidebar-user p {
