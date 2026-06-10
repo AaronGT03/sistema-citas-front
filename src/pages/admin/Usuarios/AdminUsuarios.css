@@ -264,3 +264,15 @@
     gap: 16px;
   }
 }
+.usuarios-table-card::-webkit-scrollbar{
+  height: 8px;
+}
+
+.usuarios-table-card::-webkit-scrollbar-track {
+  background: #071225;
+}
+
+.usuarios-table-card::-webkit-scrollbar-thumb{
+  background: linear-gradient(90deg, #1d7dff, #9b2cff);
+  border-radius: 999px;
+}

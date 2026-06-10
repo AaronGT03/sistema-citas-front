@@ -63,7 +63,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.65);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -128,7 +128,73 @@
   border: 0;
   padding: 12px 20px;
   border-radius: 12px;
-  background: linear-gradient(90deg,#1d7dff,#9b2cff);
+  background: linear-gradient(90deg, #1d7dff, #9b2cff);
   color: white;
   font-weight: 700;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .2s ease;
+}
+
+.edit-btn {
+  background: rgba(29, 125, 255, .15);
+  color: #1d7dff;
+}
+
+.edit-btn:hover {
+  background: rgba(29, 125, 255, .25);
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, .15);
+  color: #ef4444;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 68, 68, .25);
+}
+.empresas-table-card {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.empresas-table-card table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.empresas-table-card th,
+.empresas-table-card td {
+  white-space: nowrap;
+}
+
+.empresas-table-card::-webkit-scrollbar {
+  height: 8px;
+}
+
+.empresas-table-card::-webkit-scrollbar-track {
+  background: #071225;
+}
+
+.empresas-table-card::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #1d7dff, #9b2cff);
+  border-radius: 999px;
 }

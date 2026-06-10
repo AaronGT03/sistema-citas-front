@@ -15,7 +15,7 @@ function AppRoutes() {
       <Route
         path="/admin/dashboard"
         element={
-          <PrivateRoute>
+          <PrivateRoute rolPermitido="ADMIN">
             <AdminDashboard />
           </PrivateRoute>
         }
@@ -24,7 +24,7 @@ function AppRoutes() {
       <Route
         path="/empresa/inicio"
         element={
-          <PrivateRoute>
+          <PrivateRoute rolPermitido="EMPRESA">
             <h1>Dashboard Empresa</h1>
           </PrivateRoute>
         }
@@ -33,7 +33,7 @@ function AppRoutes() {
       <Route
         path="/admin/empresas"
         element={
-          <PrivateRoute>
+          <PrivateRoute rolPermitido="ADMIN">
             <AdminEmpresas />
           </PrivateRoute>
         }
@@ -42,7 +42,7 @@ function AppRoutes() {
       <Route
         path="/admin/usuarios"
         element={
-          <PrivateRoute>
+          <PrivateRoute rolPermitido="ADMIN">
             <AdminUsuarios />
           </PrivateRoute>
         }

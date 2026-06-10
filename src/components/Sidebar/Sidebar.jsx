@@ -10,6 +10,7 @@ function Sidebar() {
     sessionStorage.clear();
     navigate("/", { replace: true });
   };
+  const usuario = JSON.parse(sessionStorage.getItem("usuario"));
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -50,8 +51,14 @@ function Sidebar() {
 
       <div className="sidebar-footer">
         <div className="sidebar-user">
-          <span>👤</span>
-          <p>Administrador</p>
+          <div className="user-avatar">
+            {usuario?.nombre?.charAt(0).toUpperCase()}
+          </div>
+
+          <div className="user-info">
+            <h4>{usuario?.nombre}</h4>
+            <span>{usuario?.rol}</span>
+          </div>
         </div>
 
         <button className="logout-btn" onClick={logout}>

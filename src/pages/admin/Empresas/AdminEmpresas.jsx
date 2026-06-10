@@ -3,12 +3,16 @@ import AdminLayout from "../../../layouts/AdminLayout";
 import {
   obtenerEmpresas,
   crearEmpresa,
+  editarEmpresa,
+  eliminarEmpresa,
 } from "../../../services/empresaService";
 import "./AdminEmpresas.css";
+import { Pencil, Trash2 } from "lucide-react";
 
 function AdminEmpresas() {
   const [empresas, setEmpresas] = useState([]);
-
+  const [modoEditar, setModoEditar] = useState(false);
+  const [empresaSeleccionada, setEmpresaSeleccionada] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -16,6 +20,7 @@ function AdminEmpresas() {
     telefono_twilio: "",
     horario_inicio: "09:00",
     horario_fin: "18:00",
+    activa: true,
   });
 
   useEffect(() => {
@@ -35,25 +40,53 @@ function AdminEmpresas() {
     e.preventDefault();
 
     try {
-      await crearEmpresa(formData);
+      if (modoEditar) {
+        await editarEmpresa(empresaSeleccionada.id, formData);
+      } else {
+        await crearEmpresa(formData);
+      }
 
       setMostrarModal(false);
+      setModoEditar(false);
+      setEmpresaSeleccionada(null);
 
       setFormData({
         nombre: "",
         telefono_twilio: "",
         horario_inicio: "09:00",
         horario_fin: "18:00",
+        activa: true,
       });
 
       cargarEmpresas();
     } catch (error) {
-      console.log(error.response?.data);
+      alert(error.response?.data?.detail || "Error al guardar empresa");
+    }
+  };
+  const abrirEditarEmpresa = (empresa) => {
+    setModoEditar(true);
+    setEmpresaSeleccionada(empresa);
 
-      alert(
-        error.response?.data?.detail ||
-        "Error al crear empresa"
-      );
+    setFormData({
+      nombre: empresa.nombre,
+      telefono_twilio: empresa.telefono_twilio,
+      horario_inicio: empresa.horario_inicio,
+      horario_fin: empresa.horario_fin,
+      activa: empresa.activa,
+    });
+
+    setMostrarModal(true);
+  };
+  const handleEliminarEmpresa = async (empresaId) => {
+    const confirmar = confirm("¿Deseas eliminar esta empresa?");
+
+    if (!confirmar) return;
+
+    try {
+      await eliminarEmpresa(empresaId);
+      cargarEmpresas();
+    } catch (error) {
+      alert(error.response?.data?.detail || "Error al eliminar empresa");
     }
   };
 
@@ -82,6 +115,7 @@ function AdminEmpresas() {
                 <th>Teléfono Twilio</th>
                 <th>Horario</th>
                 <th>Estado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
 
@@ -96,6 +130,23 @@ function AdminEmpresas() {
                   <td>
                     <span className="status active">Activa</span>
                   </td>
+                  <td>
+                    <div className="actions">
+                      <button
+                        className="edit-btn"
+                        onClick={() => abrirEditarEmpresa(empresa)}
+                      >
+                        <Pencil size={16} />
+                      </button>
+
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleEliminarEmpresa(empresa.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -103,8 +154,7 @@ function AdminEmpresas() {
           {mostrarModal && (
             <div className="modal-overlay">
               <div className="modal-card">
-                <h2>Nueva Empresa</h2>
-
+                <h2>{modoEditar ? "Editar Empresa" : "Nueva Empresa"}</h2>
                 <form onSubmit={guardarEmpresa}>
                   <input
                     type="text"

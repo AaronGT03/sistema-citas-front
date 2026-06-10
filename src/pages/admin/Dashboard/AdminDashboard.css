@@ -215,6 +215,77 @@
 .empty-state p {
   font-size: 15px;
 }
+.panel-header p {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.appointment-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.appointment-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.appointment-info h4 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.appointment-info p {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.appointment-badge {
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.appointment-badge.success {
+  color: var(--success);
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.appointment-badge.danger {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.empty-state.compact {
+  height: 280px;
+}
+.chart-panel {
+  min-height: 430px;
+}
+
+.chart-container {
+  width: 100%;
+  height: 340px;
+}
 
 @media (max-width: 1200px) {
   .stats-grid {
