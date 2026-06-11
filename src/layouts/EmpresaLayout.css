@@ -11,3 +11,14 @@
   max-width: calc(100vw - var(--sidebar-width));
   overflow-x: hidden;
 }
+@media (max-width: 900px) {
+  .empresa-main {
+    margin-left: 0;
+    padding: 20px;
+    max-width: 100vw;
+  }
+
+  .empresa-sidebar {
+    display: none;
+  }
+}

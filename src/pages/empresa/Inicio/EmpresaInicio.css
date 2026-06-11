@@ -221,3 +221,72 @@
   place-items: center;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
+@media (max-width: 1200px) {
+  .empresa-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .empresa-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .empresa-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .empresa-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .empresa-stat-card {
+    min-height: 120px;
+  }
+
+  .empresa-panel {
+    min-height: auto;
+  }
+
+  .calendar-days {
+    min-width: 620px;
+  }
+
+  .calendar-week {
+    min-width: 620px;
+  }
+
+  .calendario-panel {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .empresa-header h1 {
+    font-size: 28px;
+  }
+
+  .empresa-stat-card {
+    padding: 18px;
+  }
+
+  .empresa-stat-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .empresa-stat-card h2 {
+    font-size: 28px;
+  }
+
+  .empresa-dashboard-grid {
+    gap: 16px;
+  }
+
+  .empresa-panel {
+    padding: 18px;
+  }
+}
