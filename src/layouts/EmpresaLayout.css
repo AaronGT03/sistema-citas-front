@@ -1,13 +1,19 @@
 .empresa-layout {
   min-height: 100vh;
-  display: flex;
-  background: var(--bg-main);
+  background: #020617;
 }
 
 .empresa-main {
-  flex: 1;
+  min-height: 100vh;
+  margin-left: 260px;
   padding: 28px 32px;
-  margin-left: var(--sidebar-width);
-  max-width: calc(100vw - var(--sidebar-width));
   overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .empresa-main {
+    margin-left: 0;
+    padding: 20px 16px 95px;
+    width: 100%;
+  }
 }
