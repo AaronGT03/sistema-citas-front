@@ -269,3 +269,21 @@
 .citas-lista::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
 }
+
+.btn-nueva-cita {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+}
+
+.modal-servicio select {
+  background: #0f172a;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 12px;
+  color: white;
+}

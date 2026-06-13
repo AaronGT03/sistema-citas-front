@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import EmpresaLayout from "../../../layouts/EmpresaLayout";
 import LoadingOverlay from "../../../components/LoadingOverlay/LoadingOverlay";
+
+import "./EmpresaCitas.css";
+
 import {
   obtenerCitas,
   cancelarCita,
   reprogramarCita,
+  crearCita,
 } from "../../../services/citasService";
-import { confirmarCancelacion } from "../../../utils/alerts";
-
-import "./EmpresaCitas.css";
+import { obtenerServiciosEmpresa } from "../../../services/serviciosService";
 
 function EmpresaCitas() {
   const [citas, setCitas] = useState([]);
@@ -28,7 +30,9 @@ function EmpresaCitas() {
 
     try {
       const data = await obtenerCitas();
+      const serviciosData = await obtenerServiciosEmpresa(usuario.empresa_id);
       setCitas(data);
+      setServicios(serviciosData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -81,6 +85,32 @@ function EmpresaCitas() {
       setLoading(false);
     }
   };
+  const guardarNuevaCita = async () => {
+    setLoading(true);
+
+    try {
+      await crearCita({
+        ...nuevaCita,
+        servicio_id: Number(nuevaCita.servicio_id),
+      });
+
+      setModalNuevaCita(false);
+
+      setNuevaCita({
+        nombre: "",
+        telefono: "",
+        fecha: "",
+        hora: "",
+        servicio_id: "",
+      });
+
+      await cargarCitas();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const citasFiltradas = citas.filter((cita) => {
     const coincideNombre = cita.nombre
       .toLowerCase()
@@ -90,6 +120,19 @@ function EmpresaCitas() {
       filtroEstado === "TODAS" || cita.status === filtroEstado;
 
     return coincideNombre && coincideEstado;
+  });
+
+  const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+  const [modalNuevaCita, setModalNuevaCita] = useState(false);
+  const [servicios, setServicios] = useState([]);
+
+  const [nuevaCita, setNuevaCita] = useState({
+    nombre: "",
+    telefono: "",
+    fecha: "",
+    hora: "",
+    servicio_id: "",
   });
 
   return (
@@ -104,6 +147,12 @@ function EmpresaCitas() {
           </div>
 
           <div className="citas-total">{citas.length} citas</div>
+          <button
+            className="btn-nueva-cita"
+            onClick={() => setModalNuevaCita(true)}
+          >
+            + Nueva cita
+          </button>
         </div>
 
         <div className="citas-search">
@@ -240,6 +289,82 @@ function EmpresaCitas() {
           </div>
         </div>
       )}
+      {modalNuevaCita && (
+  <div className="modal-overlay">
+    <div className="modal-servicio">
+      <h2>Nueva cita</h2>
+
+      <label>Nombre del cliente</label>
+      <input
+        type="text"
+        value={nuevaCita.nombre}
+        onChange={(e) =>
+          setNuevaCita({ ...nuevaCita, nombre: e.target.value })
+        }
+      />
+
+      <label>Teléfono</label>
+      <input
+        type="text"
+        value={nuevaCita.telefono}
+        onChange={(e) =>
+          setNuevaCita({ ...nuevaCita, telefono: e.target.value })
+        }
+      />
+
+      <label>Servicio</label>
+      <select
+        value={nuevaCita.servicio_id}
+        onChange={(e) =>
+          setNuevaCita({ ...nuevaCita, servicio_id: e.target.value })
+        }
+      >
+        <option value="">Selecciona un servicio</option>
+
+        {servicios
+          .filter((servicio) => servicio.activo)
+          .map((servicio) => (
+            <option key={servicio.id} value={servicio.id}>
+              {servicio.nombre}
+            </option>
+          ))}
+      </select>
+
+      <label>Fecha</label>
+      <input
+        type="text"
+        placeholder="15/10/2026"
+        value={nuevaCita.fecha}
+        onChange={(e) =>
+          setNuevaCita({ ...nuevaCita, fecha: e.target.value })
+        }
+      />
+
+      <label>Hora</label>
+      <input
+        type="text"
+        placeholder="10:00"
+        value={nuevaCita.hora}
+        onChange={(e) =>
+          setNuevaCita({ ...nuevaCita, hora: e.target.value })
+        }
+      />
+
+      <div className="modal-actions">
+        <button
+          className="btn-cancel"
+          onClick={() => setModalNuevaCita(false)}
+        >
+          Cancelar
+        </button>
+
+        <button className="btn-save" onClick={guardarNuevaCita}>
+          Crear cita
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </EmpresaLayout>
   );
 }

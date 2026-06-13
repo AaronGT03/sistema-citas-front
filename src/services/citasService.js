@@ -20,3 +20,16 @@ export const reprogramarCita = async (citaId, nuevaFecha, nuevaHora) => {
 
   return response.data;
 };
+export const crearCita = async (cita) => {
+  const response = await api.post("/citas", null, {
+    params: {
+      nombre: cita.nombre,
+      telefono: cita.telefono,
+      fecha: cita.fecha,
+      hora: cita.hora,
+      servicio_id: cita.servicio_id,
+    },
+  });
+
+  return response.data;
+};
