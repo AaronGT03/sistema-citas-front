@@ -3,7 +3,7 @@ import "./AdminDashboard.css";
 import { useEffect, useState } from "react";
 import { obtenerEmpresas } from "../../../services/empresaService";
 import { obtenerUsuarios } from "../../../services/usuarioService";
-import { obtenerCitas } from "../../../services/citaService";
+import { obtenerCitas } from "../../../services/citasService";
 import {
   LineChart,
   Line,

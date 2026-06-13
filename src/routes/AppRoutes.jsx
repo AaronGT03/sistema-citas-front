@@ -3,11 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login";
 
 import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
-
 import AdminEmpresas from "../pages/admin/Empresas/AdminEmpresas";
 import AdminUsuarios from "../pages/admin/Usuarios/AdminUsuarios";
 import PrivateRoute from "./PrivateRoute";
 import EmpresaInicio from "../pages/empresa/Inicio/EmpresaInicio";
+import EmpresaServicios from "../pages/empresa/Servicios/EmpresaServicios";
+import EmpresaCitas from "../pages/empresa/Citas/EmpresaCitas";
 
 function AppRoutes() {
   return (
@@ -27,6 +28,22 @@ function AppRoutes() {
         element={
           <PrivateRoute rolPermitido="EMPRESA">
             <EmpresaInicio />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/empresa/servicios"
+        element={
+          <PrivateRoute rolPermitido="EMPRESA">
+            <EmpresaServicios />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/empresa/citas"
+        element={
+          <PrivateRoute rolPermitido="EMPRESA">
+            <EmpresaCitas />
           </PrivateRoute>
         }
       />

@@ -1,0 +1,271 @@
+.empresa-citas {
+  width: 100%;
+  min-height: 100vh;
+  padding: 32px 40px;
+  overflow-x: hidden;
+}
+
+.citas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.citas-header h1 {
+  color: white;
+  font-size: 2rem;
+}
+
+.citas-header p {
+  color: #9ca3af;
+}
+
+.citas-total {
+  background: #111827;
+  border: 1px solid #1f2937;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.citas-search {
+  margin-bottom: 16px;
+}
+
+.citas-search input {
+  width: 100%;
+  max-width: 420px;
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 14px;
+  color: white;
+}
+
+.citas-filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.citas-filtro-btn {
+  border: 1px solid #24314d;
+  background: #111827;
+  color: #9ca3af;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.citas-filtro-btn.active {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: none;
+}
+
+.citas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cita-card {
+  width: 100%;
+  max-width: 1250px;
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 18px;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+}
+
+.cita-info {
+  min-width: 0;
+}
+
+.cita-info h3 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.cita-date-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.date-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.date-box small {
+  display: block;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.date-box strong {
+  color: white;
+  font-size: 14px;
+}
+
+.cita-telefono {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: #cbd5e1;
+}
+
+.cita-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cita-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-reprogramar,
+.btn-cancelar {
+  border: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.btn-reprogramar {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.btn-cancelar {
+  background: #ef4444;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .empresa-citas {
+    padding: 28px 24px;
+  }
+
+  .cita-card {
+    max-width: 100%;
+  }
+}
+
+/* Celular */
+@media (max-width: 700px) {
+  .empresa-citas {
+    padding: 20px 16px;
+  }
+
+  .citas-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .citas-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .citas-total {
+    width: 100%;
+    text-align: center;
+  }
+
+  .citas-search input {
+    max-width: 100%;
+  }
+
+  .citas-filtros {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .citas-filtro-btn {
+    width: 100%;
+  }
+
+  .cita-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .cita-date-row {
+    width: 100%;
+  }
+
+  .date-box {
+    width: 100%;
+  }
+
+  .cita-telefono {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cita-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn-reprogramar,
+  .btn-cancelar {
+    width: 100%;
+  }
+}
+.citas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  height: calc(100vh - 280px);
+
+  overflow-y: auto;
+
+  padding-right: 8px;
+}
+.citas-lista::-webkit-scrollbar {
+  width: 8px;
+}
+
+.citas-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.citas-lista::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 999px;
+}
+
+.citas-lista::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
