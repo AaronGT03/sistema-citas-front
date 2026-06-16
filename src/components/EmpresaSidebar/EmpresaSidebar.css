@@ -102,13 +102,15 @@
 
 @media (max-width: 768px) {
   .empresa-sidebar {
-    width: 100%;
-    height: 74px;
-
+    position: fixed;
     top: auto;
     bottom: 0;
     left: 0;
     right: 0;
+
+    width: 100%;
+    height: 74px;
+    z-index: 99999;
 
     padding: 0 10px;
 
@@ -116,27 +118,50 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .empresa-sidebar-logo,
-  .empresa-sidebar-footer {
-    display: none;
-  }
+  .empresa-sidebar-logo {
+  display: none !important;
+}
+
+.empresa-sidebar-footer {
+  display: none !important;
+}
 
   .empresa-sidebar-menu {
     height: 100%;
+    width: 100%;
+
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+
     gap: 8px;
   }
 
   .empresa-sidebar-item {
     height: 54px;
     flex: 1;
+
     padding: 0;
+
+    display: flex;
     justify-content: center;
+    align-items: center;
+
     flex-direction: column;
     gap: 4px;
+
     font-size: 11px;
     border-radius: 14px;
+  }
+}
+.mobile-logout {
+  border: none;
+  background: transparent;
+}
+
+@media (min-width: 769px) {
+  .mobile-logout {
+    display: none !important;
   }
 }

@@ -14,3 +14,15 @@ body {
   font-family: "Poppins", sans-serif;
   background: #030712;
 }
+
+.swal2-container {
+  z-index: 999999 !important;
+}
+
+.modal-overlay {
+  z-index: 9000;
+}
+
+.loading-overlay {
+  z-index: 8000;
+}

@@ -100,7 +100,7 @@ function Login() {
                 </div>
 
                 <div className="login-input-box">
-                  <Lock size={18} />
+                  <Lock size={20} />
 
                   <input
                     type={showPassword ? "text" : "password"}

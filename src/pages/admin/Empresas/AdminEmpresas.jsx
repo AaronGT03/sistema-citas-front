@@ -8,7 +8,11 @@ import {
 } from "../../../services/empresaService";
 import "./AdminEmpresas.css";
 import { Pencil, Trash2 } from "lucide-react";
-import { toast } from "react-toastify";
+import {
+  confirmar,
+  alertaExito,
+  alertaError,
+} from "../../../utils/alerts";
 
 function AdminEmpresas() {
   const [empresas, setEmpresas] = useState([]);
@@ -28,42 +32,86 @@ function AdminEmpresas() {
     cargarEmpresas();
   }, []);
 
+  const limpiarFormulario = () => {
+    setModoEditar(false);
+    setEmpresaSeleccionada(null);
+
+    setFormData({
+      nombre: "",
+      telefono_twilio: "",
+      horario_inicio: "09:00",
+      horario_fin: "18:00",
+      activa: true,
+    });
+  };
+
   const cargarEmpresas = async () => {
     try {
       const data = await obtenerEmpresas();
       setEmpresas(data);
     } catch (error) {
-      toast.error("Error al cargar empresas:");
+      console.error(error);
+      alertaError("Error", "No fue posible cargar las empresas.");
     }
+  };
+
+  const abrirNuevaEmpresa = () => {
+    limpiarFormulario();
+    setMostrarModal(true);
   };
 
   const guardarEmpresa = async (e) => {
     e.preventDefault();
 
+    setMostrarModal(false);
+
+    const aceptado = await confirmar({
+      titulo: modoEditar ? "Guardar cambios" : "Crear empresa",
+      texto: modoEditar
+        ? "Los datos de la empresa serán actualizados."
+        : "Se registrará una nueva empresa en el sistema.",
+      icono: "question",
+      textoConfirmar: modoEditar ? "Guardar" : "Crear empresa",
+    });
+
+    if (!aceptado) {
+      setMostrarModal(true);
+      return;
+    }
+
     try {
       if (modoEditar) {
         await editarEmpresa(empresaSeleccionada.id, formData);
+
+        alertaExito(
+          "Empresa actualizada",
+          "Los cambios fueron guardados correctamente."
+        );
       } else {
         await crearEmpresa(formData);
+
+        alertaExito(
+          "Empresa creada",
+          "La empresa fue registrada correctamente."
+        );
       }
 
-      setMostrarModal(false);
-      setModoEditar(false);
-      setEmpresaSeleccionada(null);
-
-      setFormData({
-        nombre: "",
-        telefono_twilio: "",
-        horario_inicio: "09:00",
-        horario_fin: "18:00",
-        activa: true,
-      });
-      toast.success("Empresa guardada correctamente");
-      cargarEmpresas();
+      limpiarFormulario();
+      await cargarEmpresas();
     } catch (error) {
-      toast.error("Error al guardar empresa");
+      console.error(error);
+
+      setMostrarModal(true);
+
+      alertaError(
+        "Error",
+        modoEditar
+          ? "No fue posible actualizar la empresa."
+          : "No fue posible crear la empresa."
+      );
     }
   };
+
   const abrirEditarEmpresa = (empresa) => {
     setModoEditar(true);
     setEmpresaSeleccionada(empresa);
@@ -78,17 +126,40 @@ function AdminEmpresas() {
 
     setMostrarModal(true);
   };
-  const handleEliminarEmpresa = async (empresaId) => {
-    const confirmar = confirm("¿Deseas eliminar esta empresa?");
 
-    if (!confirmar) return;
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    limpiarFormulario();
+  };
+
+  const handleEliminarEmpresa = async (empresaId) => {
+    const aceptado = await confirmar({
+      titulo: "Eliminar empresa",
+      texto:
+        "Esta acción eliminará la empresa del sistema. Si tiene citas, usuarios o servicios asociados, puede causar problemas.",
+      icono: "warning",
+      textoConfirmar: "Sí, eliminar",
+      colorConfirmar: "#ef4444",
+    });
+
+    if (!aceptado) return;
 
     try {
       await eliminarEmpresa(empresaId);
-      toast.success("Empresa eliminada correctamente");
-      cargarEmpresas();
+
+      alertaExito(
+        "Empresa eliminada",
+        "La empresa fue eliminada correctamente."
+      );
+
+      await cargarEmpresas();
     } catch (error) {
-      toast.error("Error al eliminar empresa");
+      console.error(error);
+
+      alertaError(
+        "Error",
+        "No fue posible eliminar la empresa. Puede tener información asociada."
+      );
     }
   };
 
@@ -103,7 +174,7 @@ function AdminEmpresas() {
 
           <button
             className="empresa-create-btn"
-            onClick={() => setMostrarModal(true)}
+            onClick={abrirNuevaEmpresa}
           >
             + Nueva empresa
           </button>
@@ -130,7 +201,13 @@ function AdminEmpresas() {
                     {empresa.horario_inicio} - {empresa.horario_fin}
                   </td>
                   <td>
-                    <span className="status active">Activa</span>
+                    <span
+                      className={
+                        empresa.activa ? "status active" : "status inactive"
+                      }
+                    >
+                      {empresa.activa ? "Activa" : "Inactiva"}
+                    </span>
                   </td>
                   <td>
                     <div className="actions">
@@ -143,7 +220,9 @@ function AdminEmpresas() {
 
                       <button
                         className="delete-btn"
-                        onClick={() => handleEliminarEmpresa(empresa.id)}
+                        onClick={() =>
+                          handleEliminarEmpresa(empresa.id)
+                        }
                       >
                         <Trash2 size={16} />
                       </button>
@@ -153,10 +232,12 @@ function AdminEmpresas() {
               ))}
             </tbody>
           </table>
+
           {mostrarModal && (
             <div className="modal-overlay">
               <div className="modal-card">
                 <h2>{modoEditar ? "Editar Empresa" : "Nueva Empresa"}</h2>
+
                 <form onSubmit={guardarEmpresa}>
                   <input
                     type="text"
@@ -220,7 +301,7 @@ function AdminEmpresas() {
                     <button
                       type="button"
                       className="btn-cancel"
-                      onClick={() => setMostrarModal(false)}
+                      onClick={cerrarModal}
                     >
                       Cancelar
                     </button>

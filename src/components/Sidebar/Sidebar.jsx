@@ -2,11 +2,23 @@ import "./Sidebar.css";
 import logo from "../../assets/logo2.png";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+  import { confirmar } from "../../utils/alerts";
 
 function Sidebar() {
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = async () => {
+    const aceptado = await confirmar({
+      titulo: "Cerrar sesión",
+      texto: "Tu sesión actual se cerrará.",
+      icono: "warning",
+      textoConfirmar: "Cerrar sesión",
+      colorConfirmar: "#ef4444",
+    });
+
+    if (!aceptado) return;
+    
+
     sessionStorage.clear();
     navigate("/", { replace: true });
   };
@@ -47,6 +59,10 @@ function Sidebar() {
           👥
           <span>Usuarios</span>
         </NavLink>
+        <button className="sidebar-item mobile-logout" onClick={logout}>
+          🚪
+          <span>Salir</span>
+        </button>
       </nav>
 
       <div className="sidebar-footer">
