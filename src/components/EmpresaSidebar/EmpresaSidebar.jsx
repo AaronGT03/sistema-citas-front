@@ -1,13 +1,25 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import "./EmpresaSidebar.css";
+  import { confirmar } from "../../utils/alerts";
 
 function EmpresaSidebar() {
   const navigate = useNavigate();
 
   const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
-  const logout = () => {
+  const logout = async () => {
+    const aceptado = await confirmar({
+      titulo: "Cerrar sesión",
+      texto: "Tu sesión actual se cerrará.",
+      icono: "warning",
+      textoConfirmar: "Cerrar sesión",
+      colorConfirmar: "#ef4444",
+    });
+
+    if (!aceptado) return;
+    
+
     sessionStorage.clear();
     navigate("/", { replace: true });
   };
@@ -46,6 +58,10 @@ function EmpresaSidebar() {
           🧾
           <span>Servicios</span>
         </NavLink>
+        <button className="empresa-sidebar-item mobile-logout" onClick={logout}>
+          🚪
+          <span>Salir</span>
+        </button>
       </nav>
 
       <div className="empresa-sidebar-footer">

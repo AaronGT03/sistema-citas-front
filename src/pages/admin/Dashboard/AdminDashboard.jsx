@@ -137,9 +137,9 @@ function AdminDashboard() {
                   data={citasPorEmpresa}
                   margin={{
                     top: 20,
-                    right: 30,
-                    left: 20,
-                    bottom: 20,
+                    right: 20,
+                    left: window.innerWidth < 768 ? -10 : 20,
+                    bottom: window.innerWidth < 768 ? 10 : 20,
                   }}
                 >
                   <CartesianGrid
@@ -149,14 +149,18 @@ function AdminDashboard() {
                   <XAxis
                     dataKey="empresa"
                     stroke="#94a3b8"
-                    tick={{ fontSize: 12 }}
+                    tick={window.innerWidth < 768 ? false : { fontSize: 12 }}
                     interval={0}
-                    angle={-10}
+                    angle={window.innerWidth < 768 ? 0 : -10}
                     textAnchor="end"
-                    height={60}
-                    padding={{ left: 40, right: 40 }}
+                    height={window.innerWidth < 768 ? 20 : 60}
+                    padding={{ left: 20, right: 20 }}
                   />
-                  <YAxis domain={[0, "dataMax + 10"]} stroke="#94a3b8" allowDecimals={false} />
+                  <YAxis
+                    domain={[0, "dataMax + 10"]}
+                    stroke="#94a3b8"
+                    allowDecimals={false}
+                  />
 
                   <Tooltip
                     contentStyle={{
@@ -194,7 +198,8 @@ function AdminDashboard() {
             </div>
 
             <div className="appointments-list">
-              {citas.length === 0 ? (
+              {citas.filter((cita) => cita.status === "AGENDADA").length ===
+              0 ? (
                 <div className="empty-state compact">
                   <div>📅</div>
                   <h3>No hay citas registradas</h3>
@@ -202,6 +207,7 @@ function AdminDashboard() {
                 </div>
               ) : (
                 citas
+                  .filter((cita) => cita.status === "AGENDADA")
                   .slice(-5)
                   .reverse()
                   .map((cita) => (

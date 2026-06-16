@@ -4,6 +4,10 @@ import LoadingOverlay from "../../../components/LoadingOverlay/LoadingOverlay";
 
 import "./EmpresaCitas.css";
 
+import { confirmar, alertaExito, alertaError } from "../../../utils/alerts";
+
+
+
 import {
   obtenerCitas,
   cancelarCita,
@@ -25,6 +29,19 @@ function EmpresaCitas() {
   const [nuevaHora, setNuevaHora] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("TODAS");
 
+    const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+  const [modalNuevaCita, setModalNuevaCita] = useState(false);
+  const [servicios, setServicios] = useState([]);
+
+  const [nuevaCita, setNuevaCita] = useState({
+    nombre: "",
+    telefono: "",
+    fecha: "",
+    hora: "",
+    servicio_id: "",
+  });
+
   const cargarCitas = async () => {
     setLoading(true);
 
@@ -45,17 +62,26 @@ function EmpresaCitas() {
   }, []);
 
   const handleCancelar = async (id) => {
-    const confirmar = window.confirm("¿Deseas cancelar esta cita?");
+    const aceptado = await confirmar({
+      titulo: "Cancelar cita",
+      texto: "Esta cita cambiará a estado CANCELADA.",
+      icono: "warning",
+      textoConfirmar: "Sí, cancelar",
+      colorConfirmar: "#ef4444",
+    });
 
-    if (!confirmar) return;
+    if (!aceptado) return;
 
     setLoading(true);
 
     try {
       await cancelarCita(id);
       await cargarCitas();
+
+      alertaExito("Cita cancelada", "La cita fue cancelada correctamente.");
     } catch (error) {
       console.error(error);
+      alertaError("Error", "No fue posible cancelar la cita.");
     } finally {
       setLoading(false);
     }
@@ -71,6 +97,21 @@ function EmpresaCitas() {
     setModalReprogramar(true);
   };
   const guardarReprogramacion = async () => {
+    setModalReprogramar(false);
+    const aceptado = await confirmar({
+      titulo: "Reprogramar cita",
+      texto:
+        "La cita actual será cancelada y se creará una nueva con la fecha y hora seleccionadas.",
+      icono: "warning",
+      textoConfirmar: "Reprogramar",
+      colorConfirmar: "#f59e0b",
+    });
+
+    if (!aceptado){
+      setModalReprogramar(true);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -79,13 +120,34 @@ function EmpresaCitas() {
       setModalReprogramar(false);
 
       await cargarCitas();
+
+      alertaExito(
+        "Cita reprogramada",
+        "La cita fue reprogramada correctamente.",
+      );
     } catch (error) {
       console.error(error);
+      setModalReprogramar(true);
+
+      alertaError("Error", "No fue posible reprogramar la cita.");
     } finally {
       setLoading(false);
     }
   };
   const guardarNuevaCita = async () => {
+    setModalNuevaCita(false);
+    const aceptado = await confirmar({
+      titulo: "Crear cita",
+      texto: "Se registrará una nueva cita para este cliente.",
+      icono: "question",
+      textoConfirmar: "Crear cita",
+    });
+
+    if (!aceptado){
+      setModalNuevaCita(true);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -93,8 +155,6 @@ function EmpresaCitas() {
         ...nuevaCita,
         servicio_id: Number(nuevaCita.servicio_id),
       });
-
-      setModalNuevaCita(false);
 
       setNuevaCita({
         nombre: "",
@@ -105,8 +165,13 @@ function EmpresaCitas() {
       });
 
       await cargarCitas();
+
+      alertaExito("Cita creada", "La cita fue registrada correctamente.");
     } catch (error) {
       console.error(error);
+      setModalNuevaCita(true);
+
+      alertaError("Error", "No fue posible crear la cita.");
     } finally {
       setLoading(false);
     }
@@ -120,19 +185,6 @@ function EmpresaCitas() {
       filtroEstado === "TODAS" || cita.status === filtroEstado;
 
     return coincideNombre && coincideEstado;
-  });
-
-  const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-
-  const [modalNuevaCita, setModalNuevaCita] = useState(false);
-  const [servicios, setServicios] = useState([]);
-
-  const [nuevaCita, setNuevaCita] = useState({
-    nombre: "",
-    telefono: "",
-    fecha: "",
-    hora: "",
-    servicio_id: "",
   });
 
   return (
@@ -290,81 +342,81 @@ function EmpresaCitas() {
         </div>
       )}
       {modalNuevaCita && (
-  <div className="modal-overlay">
-    <div className="modal-servicio">
-      <h2>Nueva cita</h2>
+        <div className="modal-overlay">
+          <div className="modal-servicio">
+            <h2>Nueva cita</h2>
 
-      <label>Nombre del cliente</label>
-      <input
-        type="text"
-        value={nuevaCita.nombre}
-        onChange={(e) =>
-          setNuevaCita({ ...nuevaCita, nombre: e.target.value })
-        }
-      />
+            <label>Nombre del cliente</label>
+            <input
+              type="text"
+              value={nuevaCita.nombre}
+              onChange={(e) =>
+                setNuevaCita({ ...nuevaCita, nombre: e.target.value })
+              }
+            />
 
-      <label>Teléfono</label>
-      <input
-        type="text"
-        value={nuevaCita.telefono}
-        onChange={(e) =>
-          setNuevaCita({ ...nuevaCita, telefono: e.target.value })
-        }
-      />
+            <label>Teléfono</label>
+            <input
+              type="text"
+              value={nuevaCita.telefono}
+              onChange={(e) =>
+                setNuevaCita({ ...nuevaCita, telefono: e.target.value })
+              }
+            />
 
-      <label>Servicio</label>
-      <select
-        value={nuevaCita.servicio_id}
-        onChange={(e) =>
-          setNuevaCita({ ...nuevaCita, servicio_id: e.target.value })
-        }
-      >
-        <option value="">Selecciona un servicio</option>
+            <label>Servicio</label>
+            <select
+              value={nuevaCita.servicio_id}
+              onChange={(e) =>
+                setNuevaCita({ ...nuevaCita, servicio_id: e.target.value })
+              }
+            >
+              <option value="">Selecciona un servicio</option>
 
-        {servicios
-          .filter((servicio) => servicio.activo)
-          .map((servicio) => (
-            <option key={servicio.id} value={servicio.id}>
-              {servicio.nombre}
-            </option>
-          ))}
-      </select>
+              {servicios
+                .filter((servicio) => servicio.activo)
+                .map((servicio) => (
+                  <option key={servicio.id} value={servicio.id}>
+                    {servicio.nombre}
+                  </option>
+                ))}
+            </select>
 
-      <label>Fecha</label>
-      <input
-        type="text"
-        placeholder="15/10/2026"
-        value={nuevaCita.fecha}
-        onChange={(e) =>
-          setNuevaCita({ ...nuevaCita, fecha: e.target.value })
-        }
-      />
+            <label>Fecha</label>
+            <input
+              type="text"
+              placeholder="15/10/2026"
+              value={nuevaCita.fecha}
+              onChange={(e) =>
+                setNuevaCita({ ...nuevaCita, fecha: e.target.value })
+              }
+            />
 
-      <label>Hora</label>
-      <input
-        type="text"
-        placeholder="10:00"
-        value={nuevaCita.hora}
-        onChange={(e) =>
-          setNuevaCita({ ...nuevaCita, hora: e.target.value })
-        }
-      />
+            <label>Hora</label>
+            <input
+              type="text"
+              placeholder="10:00"
+              value={nuevaCita.hora}
+              onChange={(e) =>
+                setNuevaCita({ ...nuevaCita, hora: e.target.value })
+              }
+            />
 
-      <div className="modal-actions">
-        <button
-          className="btn-cancel"
-          onClick={() => setModalNuevaCita(false)}
-        >
-          Cancelar
-        </button>
+            <div className="modal-actions">
+              <button
+                className="btn-cancel"
+                onClick={() => setModalNuevaCita(false)}
+              >
+                Cancelar
+              </button>
 
-        <button className="btn-save" onClick={guardarNuevaCita}>
-          Crear cita
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+              <button className="btn-save" onClick={guardarNuevaCita}>
+                Crear cita
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </EmpresaLayout>
   );
 }

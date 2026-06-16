@@ -1,16 +1,19 @@
 .admin-layout {
   min-height: 100vh;
-  display: flex;
   background: var(--bg-main);
 }
 
 .admin-main {
-  flex: 1;
-  padding: 28px 32px;
-  margin-left: var(--sidebar-width);
   min-height: 100vh;
-}
-.admin-main {
-  max-width: calc(100vw - var(--sidebar-width));
+  margin-left: 270px;
+  padding: 28px 32px;
   overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px 16px 110px;
+  }
 }

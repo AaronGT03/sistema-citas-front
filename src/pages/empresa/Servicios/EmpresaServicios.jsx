@@ -8,6 +8,8 @@ import {
 } from "../../../services/serviciosService";
 import "./EmpresaServicios.css";
 
+import { confirmar, alertaExito, alertaError } from "../../../utils/alerts";
+
 function EmpresaServicios() {
   const usuario = JSON.parse(sessionStorage.getItem("usuario"));
   const [modalEditar, setModalEditar] = useState(false);
@@ -27,6 +29,20 @@ function EmpresaServicios() {
     setModalEditar(true);
   };
   const guardarEdicion = async () => {
+    setModalEditar(false);
+
+    const aceptado = await confirmar({
+      titulo: "Guardar cambios",
+      texto: "Los datos del servicio serán actualizados.",
+      icono: "question",
+      textoConfirmar: "Guardar",
+    });
+
+    if (!aceptado){
+      setModalEditar(true);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -37,11 +53,18 @@ function EmpresaServicios() {
         precio: Number(servicioEditar.precio),
       });
 
-      setModalEditar(false);
-
       await cargarServicios();
+
+      alertaExito(
+        "Servicio actualizado",
+        "Los cambios fueron guardados correctamente.",
+      );
     } catch (error) {
       console.error(error);
+
+      setModalEditar(true);
+
+      alertaError("Error", "No fue posible actualizar el servicio.");
     } finally {
       setLoading(false);
     }
@@ -72,6 +95,16 @@ function EmpresaServicios() {
 
   const handleCrearServicio = async (e) => {
     e.preventDefault();
+
+    const aceptado = await confirmar({
+      titulo: "Crear servicio",
+      texto: "El servicio estará disponible para la empresa.",
+      icono: "question",
+      textoConfirmar: "Crear",
+    });
+
+    if (!aceptado) return;
+    
     setLoading(true);
 
     try {
@@ -91,14 +124,33 @@ function EmpresaServicios() {
       });
 
       await cargarServicios();
+
+      alertaExito(
+        "Servicio creado",
+        "El servicio fue registrado correctamente.",
+      );
     } catch (error) {
-      console.error("Error al crear servicio:", error);
+      console.error(error);
+
+      alertaError("Error", "No fue posible crear el servicio.");
     } finally {
       setLoading(false);
     }
   };
 
   const cambiarEstado = async (servicio) => {
+    const aceptado = await confirmar({
+      titulo: servicio.activo ? "Desactivar servicio" : "Activar servicio",
+      texto: servicio.activo
+        ? "Este servicio ya no aparecerá para los clientes por llamada."
+        : "Este servicio volverá a estar disponible para los clientes.",
+      icono: "warning",
+      textoConfirmar: servicio.activo ? "Desactivar" : "Activar",
+      colorConfirmar: servicio.activo ? "#ef4444" : "#22c55e",
+    });
+
+    if (!aceptado) return;
+
     setLoading(true);
 
     try {
@@ -107,8 +159,17 @@ function EmpresaServicios() {
       });
 
       await cargarServicios();
+
+      alertaExito(
+        servicio.activo ? "Servicio desactivado" : "Servicio activado",
+        servicio.activo
+          ? "El servicio ya no aparecerá en llamadas."
+          : "El servicio ya está disponible nuevamente.",
+      );
     } catch (error) {
-      console.error("Error al cambiar estado:", error);
+      console.error(error);
+
+      alertaError("Error", "No fue posible cambiar el estado del servicio.");
     } finally {
       setLoading(false);
     }
