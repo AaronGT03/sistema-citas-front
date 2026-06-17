@@ -262,7 +262,7 @@ function AdminEmpresas() {
                         telefono_twilio: e.target.value,
                       })
                     }
-                    required
+                    
                   />
 
                   <div className="time-grid">
