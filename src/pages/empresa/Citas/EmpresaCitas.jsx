@@ -15,6 +15,8 @@ import {
   crearCita,
 } from "../../../services/citasService";
 import { obtenerServiciosEmpresa } from "../../../services/serviciosService";
+import { obtenerPrestadoresEmpresa } from "../../../services/prestadorService";
+import { obtenerEmpresa } from "../../../services/empresaService";
 
 function EmpresaCitas() {
   const [citas, setCitas] = useState([]);
@@ -27,12 +29,16 @@ function EmpresaCitas() {
   const [nuevaFecha, setNuevaFecha] = useState("");
 
   const [nuevaHora, setNuevaHora] = useState("");
+  const [nuevoPrestadorId, setNuevoPrestadorId] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("TODAS");
+  const [filtroPrestador, setFiltroPrestador] = useState("TODOS");
 
     const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
   const [modalNuevaCita, setModalNuevaCita] = useState(false);
   const [servicios, setServicios] = useState([]);
+  const [prestadores, setPrestadores] = useState([]);
+  const [empresa, setEmpresa] = useState(null);
 
   const [nuevaCita, setNuevaCita] = useState({
     nombre: "",
@@ -40,16 +46,24 @@ function EmpresaCitas() {
     fecha: "",
     hora: "",
     servicio_id: "",
+    prestador_id: "",
   });
 
   const cargarCitas = async () => {
     setLoading(true);
 
     try {
-      const data = await obtenerCitas();
-      const serviciosData = await obtenerServiciosEmpresa(usuario.empresa_id);
+      const [data, serviciosData, prestadoresData, empresaData] = await Promise.all([
+        obtenerCitas(),
+        obtenerServiciosEmpresa(usuario.empresa_id),
+        obtenerPrestadoresEmpresa(usuario.empresa_id),
+        obtenerEmpresa(usuario.empresa_id),
+      ]);
+
       setCitas(data);
       setServicios(serviciosData);
+      setPrestadores(prestadoresData);
+      setEmpresa(empresaData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -94,6 +108,8 @@ function EmpresaCitas() {
 
     setNuevaHora(cita.hora);
 
+    setNuevoPrestadorId(cita.prestador_id || "");
+
     setModalReprogramar(true);
   };
   const guardarReprogramacion = async () => {
@@ -115,7 +131,12 @@ function EmpresaCitas() {
     setLoading(true);
 
     try {
-      await reprogramarCita(citaSeleccionada.id, nuevaFecha, nuevaHora);
+      await reprogramarCita(
+        citaSeleccionada.id,
+        nuevaFecha,
+        nuevaHora,
+        nuevoPrestadorId || null,
+      );
 
       setModalReprogramar(false);
 
@@ -154,6 +175,9 @@ function EmpresaCitas() {
       await crearCita({
         ...nuevaCita,
         servicio_id: Number(nuevaCita.servicio_id),
+        prestador_id: nuevaCita.prestador_id
+          ? Number(nuevaCita.prestador_id)
+          : null,
       });
 
       setNuevaCita({
@@ -162,6 +186,7 @@ function EmpresaCitas() {
         fecha: "",
         hora: "",
         servicio_id: "",
+        prestador_id: "",
       });
 
       await cargarCitas();
@@ -184,7 +209,11 @@ function EmpresaCitas() {
     const coincideEstado =
       filtroEstado === "TODAS" || cita.status === filtroEstado;
 
-    return coincideNombre && coincideEstado;
+    const coincidePrestador =
+      filtroPrestador === "TODOS" ||
+      String(cita.prestador_id) === filtroPrestador;
+
+    return coincideNombre && coincideEstado && coincidePrestador;
   });
 
   return (
@@ -243,6 +272,23 @@ function EmpresaCitas() {
             Canceladas
           </button>
         </div>
+
+        {prestadores.length > 0 && (
+          <div className="citas-search">
+            <select
+              value={filtroPrestador}
+              onChange={(e) => setFiltroPrestador(e.target.value)}
+            >
+              <option value="TODOS">Todos los prestadores</option>
+              {prestadores.map((prestador) => (
+                <option key={prestador.id} value={String(prestador.id)}>
+                  {prestador.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div className="citas-lista">
           {citasFiltradas.map((cita) => (
             <div className="cita-card" key={cita.id}>
@@ -269,6 +315,14 @@ function EmpresaCitas() {
 
                 <div className="cita-meta">
                   <span className="badge-info">{cita.servicio_nombre}</span>
+
+                  {cita.prestador_nombre && (
+                    <span className="badge-info">👤 {cita.prestador_nombre}</span>
+                  )}
+
+                  {cita.canal && (
+                    <span className="badge-info">{cita.canal}</span>
+                  )}
 
                   <span
                     className={
@@ -325,6 +379,25 @@ function EmpresaCitas() {
               onChange={(e) => setNuevaHora(e.target.value)}
               placeholder="17:00"
             />
+
+            {empresa?.usa_prestadores && (
+              <>
+                <label>Prestador</label>
+                <select
+                  value={nuevoPrestadorId}
+                  onChange={(e) => setNuevoPrestadorId(e.target.value)}
+                >
+                  <option value="">Mantener el mismo</option>
+                  {prestadores
+                    .filter((prestador) => prestador.activo)
+                    .map((prestador) => (
+                      <option key={prestador.id} value={prestador.id}>
+                        {prestador.nombre}
+                      </option>
+                    ))}
+                </select>
+              </>
+            )}
 
             <div className="modal-actions">
               <button
@@ -401,6 +474,27 @@ function EmpresaCitas() {
                 setNuevaCita({ ...nuevaCita, hora: e.target.value })
               }
             />
+
+            {empresa?.usa_prestadores && (
+              <>
+                <label>Prestador</label>
+                <select
+                  value={nuevaCita.prestador_id}
+                  onChange={(e) =>
+                    setNuevaCita({ ...nuevaCita, prestador_id: e.target.value })
+                  }
+                >
+                  <option value="">Cualquier prestador disponible</option>
+                  {prestadores
+                    .filter((prestador) => prestador.activo)
+                    .map((prestador) => (
+                      <option key={prestador.id} value={prestador.id}>
+                        {prestador.nombre}
+                      </option>
+                    ))}
+                </select>
+              </>
+            )}
 
             <div className="modal-actions">
               <button

@@ -1,0 +1,255 @@
+.empresa-prestadores {
+  width: 100%;
+  min-height: 100vh;
+  padding: 30px 40px;
+  overflow-x: hidden;
+}
+
+.prestadores-header {
+  margin-bottom: 20px;
+}
+
+.prestadores-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.prestadores-header p {
+  color: #9ca3af;
+  margin-top: 8px;
+  max-width: 650px;
+}
+
+.prestadores-aviso {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  max-width: 800px;
+  font-size: 14px;
+}
+
+.prestadores-grid {
+  display: grid;
+  grid-template-columns: 340px minmax(500px, 800px);
+  gap: 22px;
+  align-items: start;
+  max-width: 1180px;
+}
+
+.prestadores-form,
+.prestadores-lista {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 24px;
+  padding: 24px;
+
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.prestadores-form h2,
+.prestadores-lista h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.prestadores-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.prestadores-form label {
+  color: #d1d5db;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.prestadores-form input {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+.prestadores-servicios-check {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #0f172a;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 12px 14px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.servicio-check-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d1d5db;
+  font-size: 14px;
+}
+
+.servicio-check-item input {
+  width: auto;
+}
+
+.prestadores-form button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  color: white;
+}
+
+.prestador-card {
+  background: #0f172a;
+  border: 1px solid #1f2937;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.prestador-card h3 {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.prestador-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.prestador-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-active,
+.btn-inactive,
+.btn-citas {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-active {
+  background: #22c55e;
+}
+
+.btn-inactive {
+  background: #ef4444;
+}
+
+.btn-citas {
+  background: #374151;
+}
+
+.prestadores-empty {
+  color: #9ca3af;
+}
+
+.modal-citas-prestador {
+  max-width: 560px;
+}
+
+.prestador-citas-lista {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prestador-cita-item {
+  background: #0f172a;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.prestador-cita-item strong {
+  color: white;
+}
+
+.prestador-cita-item p {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.prestador-cita-fecha {
+  display: flex;
+  flex-direction: column;
+  color: #d1d5db;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .empresa-prestadores {
+    padding: 24px;
+  }
+
+  .prestadores-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Celular */
+@media (max-width: 640px) {
+  .empresa-prestadores {
+    padding: 18px;
+  }
+
+  .prestadores-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .prestadores-form,
+  .prestadores-lista {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .prestador-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .prestador-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .prestador-actions button {
+    flex: 1;
+  }
+}

@@ -5,6 +5,11 @@ export const obtenerEmpresas = async () => {
   return response.data;
 };
 
+export const obtenerEmpresa = async (empresaId) => {
+  const response = await api.get(`/empresas/${empresaId}`);
+  return response.data;
+};
+
 export const crearEmpresa = async (empresa) => {
   const response = await api.post("/empresas", null, {
     params: {
@@ -12,6 +17,7 @@ export const crearEmpresa = async (empresa) => {
       telefono_twilio: empresa.telefono_twilio,
       horario_inicio: empresa.horario_inicio,
       horario_fin: empresa.horario_fin,
+      usa_prestadores: empresa.usa_prestadores,
     },
   });
 
@@ -25,6 +31,7 @@ export const editarEmpresa = async (empresaId, empresa) => {
       horario_inicio: empresa.horario_inicio,
       horario_fin: empresa.horario_fin,
       activa: empresa.activa,
+      usa_prestadores: empresa.usa_prestadores,
     },
   });
 

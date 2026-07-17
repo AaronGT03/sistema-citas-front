@@ -26,6 +26,7 @@ function AdminEmpresas() {
     horario_inicio: "09:00",
     horario_fin: "18:00",
     activa: true,
+    usa_prestadores: false,
   });
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function AdminEmpresas() {
       horario_inicio: "09:00",
       horario_fin: "18:00",
       activa: true,
+      usa_prestadores: false,
     });
   };
 
@@ -122,6 +124,7 @@ function AdminEmpresas() {
       horario_inicio: empresa.horario_inicio,
       horario_fin: empresa.horario_fin,
       activa: empresa.activa,
+      usa_prestadores: empresa.usa_prestadores || false,
     });
 
     setMostrarModal(true);
@@ -187,6 +190,7 @@ function AdminEmpresas() {
                 <th>Empresa</th>
                 <th>Teléfono Twilio</th>
                 <th>Horario</th>
+                <th>Prestadores</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -200,6 +204,7 @@ function AdminEmpresas() {
                   <td>
                     {empresa.horario_inicio} - {empresa.horario_fin}
                   </td>
+                  <td>{empresa.usa_prestadores ? "Sí" : "No"}</td>
                   <td>
                     <span
                       className={
@@ -296,6 +301,20 @@ function AdminEmpresas() {
                       />
                     </div>
                   </div>
+
+                  <label className="empresa-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={formData.usa_prestadores}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          usa_prestadores: e.target.checked,
+                        })
+                      }
+                    />
+                    Usa varios prestadores (ej. barbería con varios barberos)
+                  </label>
 
                   <div className="modal-actions">
                     <button
