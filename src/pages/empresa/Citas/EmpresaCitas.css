@@ -69,6 +69,37 @@
   border: none;
 }
 
+.citas-filtro-select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 34px;
+
+  background-color: #111827;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'><path d='M1 1L5 5L9 1' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: auto;
+}
+
+.citas-filtro-select.active {
+  color: white;
+  border: none;
+
+  background-color: transparent;
+  background-image:
+    linear-gradient(135deg, #3b82f6, #8b5cf6),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'><path d='M1 1L5 5L9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat, no-repeat;
+  background-position: 0 0, right 14px center;
+  background-size: 100% 100%, auto;
+}
+
+.citas-filtro-select option {
+  background: #111827;
+  color: white;
+}
+
 .citas-lista {
   display: flex;
   flex-direction: column;
@@ -142,6 +173,24 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.badge-prestador {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(59, 130, 246, 0.22));
+  color: #c4b5fd;
+  border: 1px solid rgba(167, 139, 250, 0.5);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.12), 0 4px 12px rgba(139, 92, 246, 0.18);
+
+  padding: 7px 14px;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
 }
 
 .cita-actions {

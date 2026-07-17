@@ -271,11 +271,12 @@ function EmpresaCitas() {
           >
             Canceladas
           </button>
-        </div>
 
-        {prestadores.length > 0 && (
-          <div className="citas-search">
+          {prestadores.length > 0 && (
             <select
+              className={`citas-filtro-btn citas-filtro-select ${
+                filtroPrestador !== "TODOS" ? "active" : ""
+              }`}
               value={filtroPrestador}
               onChange={(e) => setFiltroPrestador(e.target.value)}
             >
@@ -286,8 +287,8 @@ function EmpresaCitas() {
                 </option>
               ))}
             </select>
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="citas-lista">
           {citasFiltradas.map((cita) => (
@@ -317,7 +318,7 @@ function EmpresaCitas() {
                   <span className="badge-info">{cita.servicio_nombre}</span>
 
                   {cita.prestador_nombre && (
-                    <span className="badge-info">👤 {cita.prestador_nombre}</span>
+                    <span className="badge-prestador">👤 {cita.prestador_nombre}</span>
                   )}
 
                   {cita.canal && (
@@ -389,7 +390,15 @@ function EmpresaCitas() {
                 >
                   <option value="">Mantener el mismo</option>
                   {prestadores
-                    .filter((prestador) => prestador.activo)
+                    .filter(
+                      (prestador) =>
+                        prestador.activo &&
+                        prestador.servicios?.some(
+                          (servicio) =>
+                            String(servicio.id) ===
+                            String(citaSeleccionada?.servicio_id),
+                        ),
+                    )
                     .map((prestador) => (
                       <option key={prestador.id} value={prestador.id}>
                         {prestador.nombre}
@@ -441,7 +450,11 @@ function EmpresaCitas() {
             <select
               value={nuevaCita.servicio_id}
               onChange={(e) =>
-                setNuevaCita({ ...nuevaCita, servicio_id: e.target.value })
+                setNuevaCita({
+                  ...nuevaCita,
+                  servicio_id: e.target.value,
+                  prestador_id: "",
+                })
               }
             >
               <option value="">Selecciona un servicio</option>
@@ -486,7 +499,14 @@ function EmpresaCitas() {
                 >
                   <option value="">Cualquier prestador disponible</option>
                   {prestadores
-                    .filter((prestador) => prestador.activo)
+                    .filter(
+                      (prestador) =>
+                        prestador.activo &&
+                        prestador.servicios?.some(
+                          (servicio) =>
+                            String(servicio.id) === String(nuevaCita.servicio_id),
+                        ),
+                    )
                     .map((prestador) => (
                       <option key={prestador.id} value={prestador.id}>
                         {prestador.nombre}
