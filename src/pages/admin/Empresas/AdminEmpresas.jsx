@@ -27,6 +27,8 @@ function AdminEmpresas() {
     horario_fin: "18:00",
     activa: true,
     usa_prestadores: false,
+    giro: "",
+    prompt_base: "",
   });
 
   useEffect(() => {
@@ -44,6 +46,8 @@ function AdminEmpresas() {
       horario_fin: "18:00",
       activa: true,
       usa_prestadores: false,
+      giro: "",
+      prompt_base: "",
     });
   };
 
@@ -125,6 +129,8 @@ function AdminEmpresas() {
       horario_fin: empresa.horario_fin,
       activa: empresa.activa,
       usa_prestadores: empresa.usa_prestadores || false,
+      giro: empresa.giro || "",
+      prompt_base: empresa.prompt_base || "",
     });
 
     setMostrarModal(true);
@@ -188,6 +194,7 @@ function AdminEmpresas() {
             <thead>
               <tr>
                 <th>Empresa</th>
+                <th>Giro</th>
                 <th>Teléfono Twilio</th>
                 <th>Horario</th>
                 <th>Prestadores</th>
@@ -200,6 +207,7 @@ function AdminEmpresas() {
               {empresas.map((empresa) => (
                 <tr key={empresa.id}>
                   <td>{empresa.nombre}</td>
+                  <td>{empresa.giro || "—"}</td>
                   <td>{empresa.telefono_twilio}</td>
                   <td>
                     {empresa.horario_inicio} - {empresa.horario_fin}
@@ -315,6 +323,35 @@ function AdminEmpresas() {
                     />
                     Usa varios prestadores (ej. barbería con varios barberos)
                   </label>
+
+                  <input
+                    type="text"
+                    placeholder="Giro del negocio (ej. Barbería, Spa, Consultorio dental)"
+                    value={formData.giro}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        giro: e.target.value,
+                      })
+                    }
+                  />
+
+                  <label htmlFor="prompt_base">
+                    Instrucciones para el asistente de IA (tono, políticas,
+                    promociones, recomendaciones)
+                  </label>
+                  <textarea
+                    id="prompt_base"
+                    placeholder="Ej. Somos una barbería premium, trato cálido. Promoción de julio: 20% en corte + barba. No hacemos reembolsos después de 24h."
+                    value={formData.prompt_base}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        prompt_base: e.target.value,
+                      })
+                    }
+                    rows={4}
+                  />
 
                   <div className="modal-actions">
                     <button

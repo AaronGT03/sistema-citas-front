@@ -98,6 +98,23 @@
   padding: 0 16px;
 }
 
+.modal-card textarea {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #0b1728;
+  color: white;
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.modal-card form > label {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: -10px;
+}
+
 .time-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -18,6 +18,8 @@ export const crearEmpresa = async (empresa) => {
       horario_inicio: empresa.horario_inicio,
       horario_fin: empresa.horario_fin,
       usa_prestadores: empresa.usa_prestadores,
+      giro: empresa.giro,
+      prompt_base: empresa.prompt_base,
     },
   });
 
@@ -32,6 +34,8 @@ export const editarEmpresa = async (empresaId, empresa) => {
       horario_fin: empresa.horario_fin,
       activa: empresa.activa,
       usa_prestadores: empresa.usa_prestadores,
+      giro: empresa.giro,
+      prompt_base: empresa.prompt_base,
     },
   });
 
