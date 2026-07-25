@@ -10,6 +10,7 @@ import EmpresaInicio from "../pages/empresa/Inicio/EmpresaInicio";
 import EmpresaServicios from "../pages/empresa/Servicios/EmpresaServicios";
 import EmpresaCitas from "../pages/empresa/Citas/EmpresaCitas";
 import EmpresaPrestadores from "../pages/empresa/Prestadores/EmpresaPrestadores";
+import EmpresaEstadisticas from "../pages/empresa/Estadisticas/EmpresaEstadisticas";
 
 function AppRoutes() {
   return (
@@ -53,6 +54,14 @@ function AppRoutes() {
         element={
           <PrivateRoute rolPermitido="EMPRESA">
             <EmpresaPrestadores />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/empresa/estadisticas"
+        element={
+          <PrivateRoute rolPermitido="EMPRESA">
+            <EmpresaEstadisticas />
           </PrivateRoute>
         }
       />

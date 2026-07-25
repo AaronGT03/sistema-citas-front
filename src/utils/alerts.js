@@ -58,6 +58,22 @@ export const alertaWarning = (
   });
 };
 
+export const alertaNuevaCita = (cita) => {
+  return Swal.fire({
+    ...configBase,
+    toast: true,
+    position: "top-end",
+    icon: "success",
+    title: "Nueva cita recibida",
+    html: `<strong>${cita.nombre}</strong><br/>${
+      [cita.servicio_nombre, cita.canal].filter(Boolean).join(" · ")
+    }<br/>${cita.fecha}${cita.hora ? ` ${cita.hora}` : " (sin hora específica)"}`,
+    showConfirmButton: false,
+    timer: 6000,
+    timerProgressBar: true,
+  });
+};
+
 export const confirmar = async ({
   titulo = "¿Estás seguro?",
   texto = "",

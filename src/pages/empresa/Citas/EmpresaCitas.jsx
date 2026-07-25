@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmpresaLayout from "../../../layouts/EmpresaLayout";
 import LoadingOverlay from "../../../components/LoadingOverlay/LoadingOverlay";
 
 import "./EmpresaCitas.css";
 
-import { confirmar, alertaExito, alertaError } from "../../../utils/alerts";
+import {
+  confirmar,
+  alertaExito,
+  alertaError,
+  alertaNuevaCita,
+} from "../../../utils/alerts";
 
 
 
@@ -49,6 +54,8 @@ function EmpresaCitas() {
     prestador_id: "",
   });
 
+  const idsConocidosRef = useRef(null);
+
   const cargarCitas = async () => {
     setLoading(true);
 
@@ -61,6 +68,7 @@ function EmpresaCitas() {
       ]);
 
       setCitas(data);
+      idsConocidosRef.current = new Set(data.map((cita) => cita.id));
       setServicios(serviciosData);
       setPrestadores(prestadoresData);
       setEmpresa(empresaData);
@@ -71,8 +79,31 @@ function EmpresaCitas() {
     }
   };
 
+  const verificarNuevasCitas = async () => {
+    if (idsConocidosRef.current === null) return;
+
+    try {
+      const data = await obtenerCitas();
+      const nuevas = data.filter((cita) => !idsConocidosRef.current.has(cita.id));
+
+      idsConocidosRef.current = new Set(data.map((cita) => cita.id));
+
+      if (nuevas.length > 0) {
+        setCitas(data);
+        nuevas.forEach((cita) => alertaNuevaCita(cita));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     cargarCitas();
+  }, []);
+
+  useEffect(() => {
+    const intervalo = setInterval(verificarNuevasCitas, 20000);
+    return () => clearInterval(intervalo);
   }, []);
 
   const handleCancelar = async (id) => {
@@ -393,11 +424,12 @@ function EmpresaCitas() {
                     .filter(
                       (prestador) =>
                         prestador.activo &&
-                        prestador.servicios?.some(
-                          (servicio) =>
-                            String(servicio.id) ===
-                            String(citaSeleccionada?.servicio_id),
-                        ),
+                        (!citaSeleccionada?.servicio_id ||
+                          prestador.servicios?.some(
+                            (servicio) =>
+                              String(servicio.id) ===
+                              String(citaSeleccionada?.servicio_id),
+                          )),
                     )
                     .map((prestador) => (
                       <option key={prestador.id} value={prestador.id}>
@@ -502,10 +534,11 @@ function EmpresaCitas() {
                     .filter(
                       (prestador) =>
                         prestador.activo &&
-                        prestador.servicios?.some(
-                          (servicio) =>
-                            String(servicio.id) === String(nuevaCita.servicio_id),
-                        ),
+                        (!nuevaCita.servicio_id ||
+                          prestador.servicios?.some(
+                            (servicio) =>
+                              String(servicio.id) === String(nuevaCita.servicio_id),
+                          )),
                     )
                     .map((prestador) => (
                       <option key={prestador.id} value={prestador.id}>

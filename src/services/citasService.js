@@ -28,6 +28,13 @@ export const reprogramarCita = async (
 
   return response.data;
 };
+export const obtenerEstadisticas = async (mes) => {
+  const response = await api.get("/citas/estadisticas", {
+    params: mes ? { mes } : {},
+  });
+  return response.data;
+};
+
 export const crearCita = async (cita) => {
   const response = await api.post("/citas", null, {
     params: {

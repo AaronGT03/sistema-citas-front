@@ -67,6 +67,15 @@ function EmpresaSidebar() {
           ✂️
           <span>Prestadores</span>
         </NavLink>
+        <NavLink
+          to="/empresa/estadisticas"
+          className={({ isActive }) =>
+            isActive ? "empresa-sidebar-item active" : "empresa-sidebar-item"
+          }
+        >
+          📊
+          <span>Estadísticas</span>
+        </NavLink>
         <button className="empresa-sidebar-item mobile-logout" onClick={logout}>
           🚪
           <span>Salir</span>
